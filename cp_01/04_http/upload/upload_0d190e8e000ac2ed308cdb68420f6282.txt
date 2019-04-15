@@ -1,0 +1,62 @@
+﻿安装docker：yum install -y docker-ce
+查看docker版本：docker version
+启动docker：systemctl start docker
+重新启动docker：systemctl restart docker
+启动一个nginx容器：docker run -d -p 80:80 --name webserver nginx，然后输入http://192.168.0.101/就可以看到nginx页面
+查看运行的docker容器：docker ps 或者 docker container ls
+从镜像源拉取centos最新镜像：docker pull centos，等价于docker pull centos:latest
+运行centos镜像：docker run -it centos bash，然后出现提示符，输入：echo hello world
+退出容器: ctrl+d 或者 exit
+列出本机所有镜像：docker images 或者 docker image ls
+仅仅显示镜像的id信息：docker images -q
+用tag命令给镜像添加标签：docker tag nginx my-nginx
+查看镜像详细信息：docker inspect nginx
+查看镜像历史(不截断)：docker history --no-trunc nginx
+搜寻官方仓库某个镜像：docker search nginx
+搜寻官方仓库中官方提供的镜像：docker search -f=is-official=true nginx
+搜寻官方仓库中收藏数大于10的镜像：docker search -f=stars=10 nginx
+删除某镜像（不强制删除）: docker rmi nginx 或者 docker image rm nginx
+强制删除某镜像：docker rmi -f nginx 或者 docker image rm -f nginx
+删除某容器：docker rm 9f199
+强制删除容器：docker rm -f 9f199
+根据已有容器创建一个新的容器：docker commit -m 'add a new file' -a 'yinbo' 08a1ad1859e6 yinbo-centos，再执行docker images 发现多一个yinbo-centos
+导出镜像：docker save -o yinbo-centos.tar yinbo-centos
+导入镜像：docker load -i yinbo-centos.tar
+创建一个容器（创建之后容器处于停止状态）: docker create nginx
+启动一个停止的容器：docker start 4b
+重启一个容器：docker restart 4b
+先创建再启动容器：docker run centos echo 'hello'
+以交互模式运行centos容器：docker run -it centos bash
+以守护状态运行centos容器并隔一段时间打印输出：docker run -d centos /bin/bash -c "while true; do echo hello world; sleep 1; done"
+查看容器输出：docker logs f8ea1000
+停止容器：docker stop f8ea1000
+自动清除停止状态下的容器：docker container prune
+查看所有容器的id：docker ps -qa
+进入容器内部：docker attach faff
+进入容器内部分配一个新的终端并执行一个命令：docker exec -it 144 echo hello
+查看容器：docker container inspect 144d
+查看容器内进程：docker top 144d
+查看容器统计信息：docker stats 144d
+将外部的文件拷贝到容器内指定路径下：docker cp hello.txt 144d:/~
+查看容器系统变更：docker container diff 144d
+查看端口映射：docker container port 144d
+使用training/webapp镜像创建一个web容器，并创建一个数据卷挂载到容器的opt/webapp目录（默认权限：读写）：docker run -d -P --name web --mount type=bind,source=/webapp,destination=/opt/webapp training/webapp python app.py
+使用training/webapp镜像创建一个web容器，并创建一个数据卷挂载到容器的opt/webapp目录（权限：只读）：docker run -d -P --name web --mount type=bind,source=/webapp,destination=/opt/webapp:ro training/webapp python app.py
+通过随机映射端口的方式在后台启动一个容器：docker run -d -P training/webapp python app.py
+通过映射本地端口的方式在后台启动一个容器：docker run -d -p 5000:5000 training/webapp python app.py
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
